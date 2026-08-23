@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="googlebot" content="noindex, nofollow">
+<title>Counter Card Lookbook — Woolf Provisions × RepRally</title>
+<meta name="theme-color" content="#0b0b0d">
+<style>
+  :root{
+    --bg:#0b0b0d; --panel:#141417; --panel2:#1c1c21; --line:#2a2a31;
+    --ink:#f4f4f5; --dim:#a1a1aa; --dim2:#71717a;
+    --lit:#e0a92e; --lfg:#22e0ff; --sf:#8ea2ff; --heart:#ff3b6b;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;padding-bottom:96px;}
+  a{color:inherit;}
+
+  header.top{padding:26px 20px 18px;text-align:center;border-bottom:1px solid var(--line);
+    background:radial-gradient(120% 90% at 50% -10%,#1a1a20,transparent);}
+  .kicker{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--dim2);font-weight:700;}
+  h1{font-size:26px;letter-spacing:-.3px;margin:6px 0 4px;}
+  .sub{color:var(--dim);font-size:14px;max-width:560px;margin:8px auto 0;}
+  .hint{margin-top:14px;display:inline-flex;gap:8px;align-items:center;font-size:13px;color:var(--ink);
+    background:var(--panel2);border:1px solid var(--line);padding:8px 14px;border-radius:999px;}
+
+  nav.brands{position:sticky;top:0;z-index:20;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+    padding:12px;background:rgba(11,11,13,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);}
+  nav.brands a{font-size:14px;font-weight:700;padding:8px 16px;border-radius:999px;border:1px solid var(--line);
+    background:var(--panel);color:var(--ink);text-decoration:none;}
+
+  section.brand{padding:26px 16px 8px;max-width:1200px;margin:0 auto;scroll-margin-top:64px;}
+  .bhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .bhead h2{font-size:30px;letter-spacing:.5px;}
+  .bhead .tag{font-size:13px;color:var(--dim);}
+  .lit .bhead h2{color:var(--lit);} .lfg .bhead h2{color:var(--lfg);} .sf .bhead h2{color:var(--sf);}
+
+  .spec{margin:14px 0 20px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);}
+  .spec .srow{display:grid;grid-template-columns:1.4fr .8fr .8fr .8fr;gap:8px;padding:11px 14px;font-size:14px;align-items:center;}
+  .spec .srow+.srow{border-top:1px solid var(--line);}
+  .spec .shead{background:var(--panel2);color:var(--dim2);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;}
+  .spec .flav{font-weight:700;}
+  .spec .num{color:var(--dim);} .spec .price{font-weight:800;text-align:right;}
+
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  @media(min-width:640px){.grid{grid-template-columns:repeat(3,1fr);}}
+  @media(min-width:960px){.grid{grid-template-columns:repeat(4,1fr);}}
+
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;position:relative;}
+  .card .thumb{display:block;width:100%;aspect-ratio:2/3;background:#000;cursor:zoom-in;}
+  .card .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .card .cap{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;}
+  .card .code{font-size:11px;letter-spacing:1px;font-weight:800;color:var(--dim2);}
+  .card .name{font-size:13.5px;font-weight:700;line-height:1.2;}
+  .fav{flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);
+    display:grid;place-items:center;cursor:pointer;font-size:18px;color:var(--dim2);transition:transform .1s;}
+  .fav.on{color:var(--heart);border-color:var(--heart);background:rgba(255,59,107,.12);}
+  .fav:active{transform:scale(.86);}
+
+  /* lightbox */
+  .lb{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.94);display:none;flex-direction:column;}
+  .lb.open{display:flex;}
+  .lb .bar{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;color:var(--ink);}
+  .lb .bar .t{font-size:15px;font-weight:700;}
+  .lb .bar .x{font-size:26px;line-height:1;cursor:pointer;padding:4px 10px;}
+  .lb .imgwrap{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto;padding:0 12px 12px;}
+  .lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;}
+  .lb .lbfav{margin:0 18px 18px;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--panel);
+    text-align:center;font-weight:700;cursor:pointer;}
+  .lb .lbfav.on{color:var(--heart);border-color:var(--heart);background:rgba(255,59,107,.12);}
+
+  /* picks bar */
+  .picks{position:fixed;left:0;right:0;bottom:0;z-index:40;transform:translateY(120%);transition:transform .22s;
+    background:rgba(20,20,23,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:12px 14px calc(12px + env(safe-area-inset-bottom));}
+  .picks.show{transform:none;}
+  .picks .row{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;}
+  .picks .count{font-weight:800;margin-right:auto;}
+  .picks .count small{display:block;font-weight:500;color:var(--dim);font-size:12px;}
+  .btn{font-size:14px;font-weight:700;padding:11px 16px;border-radius:10px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--ink);text-decoration:none;cursor:pointer;white-space:nowrap;}
+  .btn.primary{background:var(--heart);border-color:var(--heart);color:#fff;}
+  .btn.ghost{background:transparent;color:var(--dim);}
+  footer{padding:30px 20px 40px;text-align:center;color:var(--dim2);font-size:12px;line-height:1.6;}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="kicker">Woolf Provisions × RepRally</div>
+  <h1>Counter Card Lookbook</h1>
+  <div class="sub">Every counter-card design, by brand. Tap a card to see it full-size.</div>
+  <div class="hint">♡ Tap the heart on the ones you like — then hit “Send my picks.”</div>
+</header>
+
+<nav class="brands">
+  <a href="#LIT">LIT</a>
+  <a href="#LFG">LFG</a>
+  <a href="#SuperFeels">SuperFeels</a>
+</nav>
+
+<main id="app"></main>
+
+<div class="lb" id="lb">
+  <div class="bar"><div class="t" id="lbTitle"></div><div class="x" id="lbClose">✕</div></div>
+  <div class="imgwrap"><img id="lbImg" src="" alt=""></div>
+  <div class="lbfav" id="lbFav">♡ Add to my picks</div>
+</div>
+
+<div class="picks" id="picks">
+  <div class="row">
+    <div class="count"><span id="pcount">0</span> favorites<small id="pcodes">Your picks will show here</small></div>
+    <a class="btn primary" id="sendSms">Text my picks to Neal</a>
+    <a class="btn" id="sendMail">Email Steve</a>
+    <button class="btn ghost" id="clearPicks">Clear</button>
+  </div>
+</div>
+
+<footer>
+  Woolf Provisions × RepRally — internal lookbook, not for public distribution.<br>
+  For adults 21+. Lab-tested. These statements have not been evaluated by the FDA. Not intended to diagnose, treat, cure, or prevent any disease.
+</footer>
+
+<script>
+const NEAL_PHONE = "17347094840";
+const STEVE_EMAIL = "stevewoolf@gmail.com";
+const LETTERS = ["A","B","C","D","E","F","G","H","I","J","K","L"];
+const NAMES = { I:"Trading Card (holo)", J:"Mixtape", K:"Neon Night" };
+const NAMES_L = { LIT:"Grand Prix Fuel", LFG:"Grand Prix Fuel", SuperFeels:"Botanical Apothecary" };
+
+const BRANDS = [
+  { id:"LIT", name:"LIT", cls:"lit", tag:"Lab-verified kratom · 21+ · the most MIT per dollar",
+    spec:[["Watermelon","190 MIT","15 mL","$11.99"],["Butterscotch","110 MIT","15 mL","$8.99"],["Black Honey","80 MIT","15 mL","$6.99"]] },
+  { id:"LFG", name:"LFG", cls:"lfg", tag:"Kratom extract · 21+",
+    spec:[["Strawberry Watermelon","60 mg","2 fl oz","$8.99"],["Cinnamon","200 mg","0.5 fl oz","$13.99"]] },
+  { id:"SuperFeels", name:"SuperFeels", cls:"sf", tag:"Kava + kratom tonic · non-alcoholic · plant-based · 21+",
+    spec:[["Max Relax — Apple","380 mg kavalactones · 75 MIT","2 fl oz","$8.99"]] },
+];
+
+function designName(brand, L){
+  if(L==="L") return NAMES_L[brand];
+  return NAMES[L] || ("Design "+L);
+}
+
+let favs = new Set(JSON.parse(localStorage.getItem("wp_favs")||"[]"));
+function saveFavs(){ localStorage.setItem("wp_favs", JSON.stringify([...favs])); renderPicks(); }
+
+const app = document.getElementById("app");
+BRANDS.forEach(b=>{
+  const sec = document.createElement("section");
+  sec.className = "brand "+b.cls; sec.id = b.id;
+  let spec = `<div class="spec"><div class="srow shead"><div>Flavor</div><div>Strength</div><div>Size</div><div style="text-align:right">Price</div></div>`;
+  b.spec.forEach(r=> spec += `<div class="srow"><div class="flav">${r[0]}</div><div class="num">${r[1]}</div><div class="num">${r[2]}</div><div class="price">${r[3]}</div></div>`);
+  spec += `</div>`;
+  let cards = `<div class="grid">`;
+  LETTERS.forEach(L=>{
+    const code = `${b.id}-${L}`;
+    const nm = designName(b.id, L);
+    const img = `images/${b.id}-${L}.jpg`;
+    cards += `<div class="card" data-code="${code}">
+      <div class="thumb" data-full="${img}" data-title="${code} · ${nm}"><img loading="lazy" src="${img}" alt="${code} ${nm}"></div>
+      <div class="cap"><div><div class="code">${code}</div><div class="name">${nm}</div></div>
+      <div class="fav" data-code="${code}" role="button" aria-label="favorite">♡</div></div>
+    </div>`;
+  });
+  cards += `</div>`;
+  sec.innerHTML = `<div class="bhead"><h2>${b.name}</h2><span class="tag">${b.tag}</span></div>${spec}${cards}`;
+  app.appendChild(sec);
+});
+
+function refreshHearts(){
+  document.querySelectorAll(".fav").forEach(f=>{
+    const on = favs.has(f.dataset.code);
+    f.classList.toggle("on", on); f.textContent = on ? "♥" : "♡";
+  });
+}
+function toggle(code){ favs.has(code)?favs.delete(code):favs.add(code); saveFavs(); refreshHearts(); syncLbFav(); }
+
+document.addEventListener("click", e=>{
+  const fav = e.target.closest(".fav");
+  if(fav){ toggle(fav.dataset.code); return; }
+  const thumb = e.target.closest(".thumb");
+  if(thumb){ openLb(thumb.dataset.full, thumb.dataset.title); return; }
+});
+
+// lightbox
+const lb=document.getElementById("lb"), lbImg=document.getElementById("lbImg"),
+      lbTitle=document.getElementById("lbTitle"), lbFav=document.getElementById("lbFav");
+let lbCode=null;
+function openLb(src,title){ lbImg.src=src; lbTitle.textContent=title; lbCode=title.split(" · ")[0];
+  syncLbFav(); lb.classList.add("open"); document.body.style.overflow="hidden"; }
+function closeLb(){ lb.classList.remove("open"); document.body.style.overflow=""; }
+function syncLbFav(){ if(!lbCode) return; const on=favs.has(lbCode);
+  lbFav.classList.toggle("on",on); lbFav.textContent = on ? "♥ In your picks — tap to remove" : "♡ Add to my picks"; }
+document.getElementById("lbClose").onclick=closeLb;
+lb.addEventListener("click",e=>{ if(e.target===lb||e.target.classList.contains("imgwrap")) closeLb(); });
+lbFav.onclick=()=>{ if(lbCode) toggle(lbCode); };
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeLb(); });
+
+// picks bar
+const picks=document.getElementById("picks");
+function renderPicks(){
+  const arr=[...favs];
+  document.getElementById("pcount").textContent=arr.length;
+  document.getElementById("pcodes").textContent = arr.length? arr.join(", ") : "Your picks will show here";
+  picks.classList.toggle("show", arr.length>0);
+  const msg = "My counter-card picks: " + arr.join(", ");
+  document.getElementById("sendSms").href = `sms:${NEAL_PHONE}?&body=${encodeURIComponent(msg)}`;
+  document.getElementById("sendMail").href = `mailto:${STEVE_EMAIL}?subject=${encodeURIComponent("Counter card picks")}&body=${encodeURIComponent(msg)}`;
+}
+document.getElementById("clearPicks").onclick=()=>{ favs.clear(); saveFavs(); refreshHearts(); syncLbFav(); };
+
+refreshHearts(); renderPicks();
+</script>
+</body>
+</html>
