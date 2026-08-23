@@ -11,7 +11,7 @@
   :root{
     --bg:#0b0b0d; --panel:#141417; --panel2:#1c1c21; --line:#2a2a31;
     --ink:#f4f4f5; --dim:#a1a1aa; --dim2:#71717a;
-    --lit:#e0a92e; --lfg:#22e0ff; --sf:#8ea2ff; --heart:#ff3b6b;
+    --lit:#e0a92e; --lfg:#22e0ff; --sf:#8ea2ff; --chant:#e8c25a; --heart:#ff3b6b;
     --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
   }
   *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -35,7 +35,7 @@
   .bhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
   .bhead h2{font-size:30px;letter-spacing:.5px;}
   .bhead .tag{font-size:13px;color:var(--dim);}
-  .lit .bhead h2{color:var(--lit);} .lfg .bhead h2{color:var(--lfg);} .sf .bhead h2{color:var(--sf);}
+  .lit .bhead h2{color:var(--lit);} .lfg .bhead h2{color:var(--lfg);} .sf .bhead h2{color:var(--sf);} .chant .bhead h2{color:var(--chant);}
 
   .spec{margin:14px 0 20px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);}
   .spec .srow{display:grid;grid-template-columns:1.4fr .8fr .8fr .8fr;gap:8px;padding:11px 14px;font-size:14px;align-items:center;}
@@ -97,6 +97,7 @@
   <a href="#LIT">LIT</a>
   <a href="#LFG">LFG</a>
   <a href="#SuperFeels">SuperFeels</a>
+  <a href="#Chant">Chant</a>
 </nav>
 
 <main id="app"></main>
@@ -126,7 +127,7 @@ const NEAL_PHONE = "17347094840";
 const STEVE_EMAIL = "stevewoolf@gmail.com";
 const LETTERS = ["A","B","C","D","E","F","G","H","I","J","K","L"];
 const NAMES = { I:"Trading Card (holo)", J:"Mixtape", K:"Neon Night" };
-const NAMES_L = { LIT:"Grand Prix Fuel", LFG:"Grand Prix Fuel", SuperFeels:"Botanical Apothecary" };
+const NAMES_L = { LIT:"Grand Prix Fuel", LFG:"Grand Prix Fuel", SuperFeels:"Botanical Apothecary", Chant:"Grand Prix Fuel" };
 
 const BRANDS = [
   { id:"LIT", name:"LIT", cls:"lit", tag:"Lab-verified kratom · 21+ · the most MIT per dollar",
@@ -135,6 +136,8 @@ const BRANDS = [
     spec:[["Strawberry Watermelon","60 mg","2 fl oz","$8.99"],["Cinnamon","200 mg","0.5 fl oz","$13.99"]] },
   { id:"SuperFeels", name:"SuperFeels", cls:"sf", tag:"Kava + kratom tonic · non-alcoholic · plant-based · 21+",
     spec:[["Max Relax — Apple","380 mg kavalactones · 75 MIT","2 fl oz","$8.99"]] },
+  { id:"Chant", name:"Chant", cls:"chant", tag:"Full-spectrum kratom extract · Buy 1 Get 1 Free · natural leaf · 21+", letters:["I","J","K","L"],
+    spec:[["Original","100 mg full-spectrum","15 ml","$15.99"],["Gold","125 mg full-spectrum","15 ml","$17.99"],["Platinum","150 mg full-spectrum","15 ml","$19.99"]] },
 ];
 
 function designName(brand, L){
@@ -153,7 +156,7 @@ BRANDS.forEach(b=>{
   b.spec.forEach(r=> spec += `<div class="srow"><div class="flav">${r[0]}</div><div class="num">${r[1]}</div><div class="num">${r[2]}</div><div class="price">${r[3]}</div></div>`);
   spec += `</div>`;
   let cards = `<div class="grid">`;
-  LETTERS.forEach(L=>{
+  (b.letters || LETTERS).forEach(L=>{
     const code = `${b.id}-${L}`;
     const nm = designName(b.id, L);
     const img = `images/${b.id}-${L}.jpg`;
